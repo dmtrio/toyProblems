@@ -1,0 +1,14 @@
+{
+  "name": "toyproblems",
+  "version": "1.0.0",
+  "description": "Just a space to try and test toy problems",
+  "main": "index.js",
+  "dependencies": {
+    "jest": "^23.6.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Demetrio Urquidi",
+  "license": "ISC"
+}
