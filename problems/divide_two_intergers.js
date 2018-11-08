@@ -5,8 +5,12 @@
  * @return {number}
  */
 const divide = function(dividend, divisor) {
-  const dividendStr = dividend.toString();
-  const initalDepth = Math.abs(divisor).toString().length
+  const max = 2147483647
+  const min = -2147483648
+  const dividendStr = Math.abs(dividend).toString();
+  const absDivisor = Math.abs(divisor);
+  const initalDepth = absDivisor.toString().length
+  let finalNumber
 
   const loop = function (curDividendIndx, curDividendDepth, remainder) {
     let curDividend 
@@ -17,19 +21,47 @@ const divide = function(dividend, divisor) {
     } else {
       return  ""
     }
-    if (curDividend > divisor) {
-      while (curDividend >= divisor) {
+    if (curDividend >= absDivisor) {
+      while (curDividend >= absDivisor) {
         result +=1
-        curDividend -= divisor
+        curDividend -= absDivisor
       }
     }
     const previousResult = loop(curDividendIndx + curDividendDepth, 1, curDividend)
     return `${result}${previousResult}`
   }
-  return Number(loop(0, initalDepth, ''))
-};
+  if ((divisor < 0 && dividend > 0) || (divisor > 0 && dividend < 0)) {
+    finalNumber = Number(`-${loop(0, initalDepth, '')}`)
+  } else {
+    finalNumber = Number(loop(0, initalDepth, ''))
+  }
+
+  if (finalNumber > max) {
+    return max
+  } else if (finalNumber < min) {
+    return min
+  }
+
+  return finalNumber
+}
 
 // Testcases - Runing JEST ;)
+test('Return 1 if if you divide 1 by 1', () => {
+  expect(divide(1, 1)).toBe(1);
+});
+
+test('Return 2147483648 if the divisor is greater than 32 bit signed int', () => {
+  expect(divide(-2147483648, -1)).toBe(2147483647);
+});
+
+test('Return 2147483648 if the divisor is greater than 32 bit signed int', () => {
+  expect(divide(-2147483648, 1)).toBe(-2147483648);
+});
+
+test('Return -1 if if you divide -1 by 1', () => {
+  expect(divide(-1, 1)).toBe(-1);
+});
+
 test('Return 0 if the divisor is larger than the dividend', () => {
   expect(divide(1, 3)).toBe(0);
 });
