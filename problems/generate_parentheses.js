@@ -7,7 +7,7 @@ var generateParenthesis = function(n) {
   const recurse = (str, avail, paren) => {
       if (avail === 0 && paren === 0) {
           ans.push(str)
-      } else if (avail === 0 || paren === n) {
+      } else if (avail <= 0 || paren === n) {
           recurse (str + ')', avail, paren - 1)
       } else if (avail > 0 && paren < n && paren >= 0) {
           recurse (str + ')', avail, paren - 1)
