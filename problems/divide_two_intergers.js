@@ -5,42 +5,37 @@
  * @return {number}
  */
 const divide = function(dividend, divisor) {
-  const max = 2147483647
-  const min = -2147483648
-  const dividendStr = Math.abs(dividend).toString();
+  const absDividend = Math.abs(dividend)
   const absDivisor = Math.abs(divisor);
+  const dividendStrArr = absDividend.toString().split('');
   const initalDepth = absDivisor.toString().length
   let finalNumber
 
-  const loop = function (curDividendIndx, curDividendDepth, remainder) {
-    let curDividend 
+  const substractionLoop = function (curDividendIndx, carryOver) {
     let result = 0;
+    let str = '';
 
-    if (curDividendIndx < dividendStr.length) {
-      curDividend = Number(`${remainder}${dividendStr.slice(curDividendIndx, curDividendIndx + curDividendDepth)}`);
-    } else {
-      return  ""
-    }
-    if (curDividend >= absDivisor) {
+    if (curDividendIndx < dividendStrArr.length) {
+      let curDividend = Number(`${carryOver}${dividendStrArr[curDividendIndx]}`);
       while (curDividend >= absDivisor) {
-        result +=1
+        result += 1
         curDividend -= absDivisor
       }
+      str = `${result}${substractionLoop(curDividendIndx + 1, curDividend)}`
     }
-    const previousResult = loop(curDividendIndx + curDividendDepth, 1, curDividend)
-    return `${result}${previousResult}`
-  }
-  if ((divisor < 0 && dividend > 0) || (divisor > 0 && dividend < 0)) {
-    finalNumber = Number(`-${loop(0, initalDepth, '')}`)
-  } else {
-    finalNumber = Number(loop(0, initalDepth, ''))
+    return str;
   }
 
-  if (finalNumber > max) {
-    return max
-  } else if (finalNumber < min) {
-    return min
+  if (absDivisor > absDividend) {
+    return 0;
   }
+
+  finalNumber = Number(substractionLoop(initalDepth - 1, dividendStrArr.slice(0, initalDepth - 1).join('')))
+  if ((divisor < 0 && dividend > 0) || (divisor > 0 && dividend < 0)) {
+    finalNumber = 0 - finalNumber
+  }
+  finalNumber = Math.min(finalNumber, 2147483647)
+  finalNumber = Math.max(finalNumber, -2147483648)
 
   return finalNumber
 }
