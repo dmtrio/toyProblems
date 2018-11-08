@@ -37,7 +37,7 @@ const divide = function(dividend, divisor) {
   finalNumber = Math.min(finalNumber, 2147483647)
   finalNumber = Math.max(finalNumber, -2147483648)
 
-  return finalNumber
+  return finalNumber;
 }
 
 // Testcases - Runing JEST ;)
