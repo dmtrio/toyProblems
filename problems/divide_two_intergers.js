@@ -1,51 +1,51 @@
- 
+
 /**
  * @param {number} dividend
  * @param {number} divisor
  * @return {number}
  */
-const divide = function(dividend, divisor) {
-  const absDividend = Math.abs(dividend)
+const divide = (dividend, divisor) => {
+  const absDividend = Math.abs(dividend);
   const absDivisor = Math.abs(divisor);
   const dividendStrArr = absDividend.toString().split('');
-  const initalDepth = absDivisor.toString().length
-  let finalNumber
+  const initalDepth = absDivisor.toString().length;
+  let finalNumber;
 
-  const substractionLoop = function (curDividendIndx, carryOver) {
+  const substractionLoop = (curDividendIndx, carryOver) => {
     let result = 0;
     let str = '';
 
     if (curDividendIndx < dividendStrArr.length) {
       let curDividend = Number(`${carryOver}${dividendStrArr[curDividendIndx]}`);
       while (curDividend >= absDivisor) {
-        result += 1
-        curDividend -= absDivisor
+        result += 1;
+        curDividend -= absDivisor;
       }
-      str = `${result}${substractionLoop(curDividendIndx + 1, curDividend)}`
+      str = `${result}${substractionLoop(curDividendIndx + 1, curDividend)}`;
     }
     return str;
-  }
+  };
 
   if (absDivisor > absDividend) {
     return 0;
   }
 
-  finalNumber = Number(substractionLoop(initalDepth - 1, dividendStrArr.slice(0, initalDepth - 1).join('')))
+  finalNumber = Number(substractionLoop(initalDepth - 1, dividendStrArr.slice(0, initalDepth - 1).join('')));
   if ((divisor < 0 && dividend > 0) || (divisor > 0 && dividend < 0)) {
-    finalNumber = 0 - finalNumber
+    finalNumber = 0 - finalNumber;
   }
-  finalNumber = Math.min(finalNumber, 2147483647)
-  finalNumber = Math.max(finalNumber, -2147483648)
+  finalNumber = Math.min(finalNumber, 2147483647);
+  finalNumber = Math.max(finalNumber, -2147483648);
 
   return finalNumber;
-}
+};
 
 // Testcases - Runing JEST ;)
 test('Return 1 if if you divide 1 by 1', () => {
   expect(divide(1, 1)).toBe(1);
 });
 
-test('Return 2147483648 if the divisor is greater than 32 bit signed int', () => {
+test('Return 2147483647 if the divisor is lesser than 32 bit signed int', () => {
   expect(divide(-2147483648, -1)).toBe(2147483647);
 });
 
