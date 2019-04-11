@@ -74,15 +74,15 @@ function buildPalindrome(a, b) {
 
 }
 
-function findFragment(fragment, search, fLength) {
+function findFragment(fragment, search) {
   // const times = fragment.length - fLength + 1;
   // while (times > 0) {
-  const match = search.indexOf(fragment);
+  let match = search.indexOf(fragment);
   while (match > -1) {
-    if (match) {
-
+    if (match > -1) {
+      console.log(match);
     } 
-    match = search.indexOf(fragment, match);
+    match = search.indexOf(fragment, match + 1);
   }
 
 }

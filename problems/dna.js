@@ -35,8 +35,6 @@ function readLine() {
 
 function geneSearch(dna, gene, index, matchCount) { 
     const match = dna.indexOf(gene, index);
-    console.log('inside', dna, gene, index, matchCount)
-
     if (match > -1) { 
         return geneSearch(dna, gene, match + 1, matchCount + 1);
     }
@@ -66,15 +64,12 @@ function main() {
 
         const d = firstLastd[2];
 
-
         const mapGenes = genes.slice(first, last + 1);
         const mapHealth = health.slice(first, last + 1);
-
-
+        
         mapGenes.forEach((gene, index) => {
             const matches = geneSearch(d, gene, 0, 0);
             healthSum = healthSum + mapHealth[index] * matches;
-            console.log(matches, healthSum)
         })
 
         highest = typeof highest === 'undefined' ? healthSum : healthSum > highest ? healthSum : highest
@@ -82,7 +77,6 @@ function main() {
         lowest = typeof lowest === 'undefined' ? healthSum : healthSum < lowest ? healthSum : lowest
     }
 
-    // console.log(highest + ' ' + lowest);
     return lowest + ' ' + highest;
 }
 
